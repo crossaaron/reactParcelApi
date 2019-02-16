@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import DummyText from './DummyText/DummyText'
 
 export default class App extends Component {
     render() {
         return(
             <div>
-                <h1>Parcel Api with React</h1>
+                <DummyText />
             </div>
         )
 
