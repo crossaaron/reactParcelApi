@@ -4,7 +4,7 @@ import DummyText from './DummyText/DummyText'
 export default class App extends Component {
     render() {
         return(
-            <div>
+            <div id='app-container'>
                 <DummyText />
             </div>
         )

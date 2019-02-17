@@ -25576,9 +25576,20 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
-      paragraphs: 5
+      paragraphs: 3,
+      results: []
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    var url = 'https://baconipsum.com/api/?type=meat-and-filler&paras=' + _this.state.paragraphs;
+    fetch(url).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      console.log(JSON.stringify(json));
+
+      _this.setState({
+        results: json
+      });
+    });
     return _this;
   }
 
@@ -25596,6 +25607,10 @@ function (_Component) {
         id: "dummy-container"
       }, _react.default.createElement("h1", null, "Bacon Text Generator"), _react.default.createElement("div", {
         id: "dummy-text-result"
+      }), this.state.results.map(function (paragraphText, index) {
+        return _react.default.createElement("p", {
+          key: index
+        }, paragraphText);
       }), _react.default.createElement("div", {
         id: "dummy-text-controls"
       }, _react.default.createElement("h2", null, " Options"), _react.default.createElement("p", null, "Paragraphs:"), _react.default.createElement("p", null, _react.default.createElement("input", {
@@ -25658,7 +25673,9 @@ function (_Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement(_DummyText.default, null));
+      return _react.default.createElement("div", {
+        id: "app-container"
+      }, _react.default.createElement(_DummyText.default, null));
     }
   }]);
 
@@ -25779,7 +25796,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62550" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62949" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
