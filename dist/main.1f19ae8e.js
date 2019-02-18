@@ -25580,24 +25580,39 @@ function (_Component) {
       results: []
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    var url = 'https://baconipsum.com/api/?type=meat-and-filler&paras=' + _this.state.paragraphs;
-    fetch(url).then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      console.log(JSON.stringify(json));
-
-      _this.setState({
-        results: json
-      });
-    });
     return _this;
   }
 
   _createClass(App, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.fetchText();
+    }
+  }, {
+    key: "fetchText",
+    value: function fetchText() {
+      var _this2 = this;
+
+      var url = 'https://baconipsum.com/api/?type=meat-and-filler&paras=' + this.state.paragraphs;
+      fetch(url).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        console.log(JSON.stringify(json));
+
+        _this2.setState({
+          results: json
+        });
+      });
+    }
+  }, {
     key: "handleChange",
     value: function handleChange(event) {
+      var _this3 = this;
+
       this.setState({
         paragraphs: event.target.value
+      }, function () {
+        _this3.fetchText();
       });
     }
   }, {
@@ -25606,18 +25621,19 @@ function (_Component) {
       return _react.default.createElement("div", {
         id: "dummy-container"
       }, _react.default.createElement("h1", null, "Bacon Text Generator"), _react.default.createElement("div", {
+        id: "dummy-text-controls"
+      }, _react.default.createElement("h2", null, " Options"), _react.default.createElement("p", null, "Paragraphs:"), _react.default.createElement("p", null, _react.default.createElement("input", {
+        type: "number",
+        value: this.state.paragraphs,
+        min: "1",
+        onChange: this.handleChange
+      }))), _react.default.createElement("div", {
         id: "dummy-text-result"
       }), this.state.results.map(function (paragraphText, index) {
         return _react.default.createElement("p", {
           key: index
         }, paragraphText);
-      }), _react.default.createElement("div", {
-        id: "dummy-text-controls"
-      }, _react.default.createElement("h2", null, " Options"), _react.default.createElement("p", null, "Paragraphs:"), _react.default.createElement("p", null, _react.default.createElement("input", {
-        type: "number",
-        value: this.state.paragraphs,
-        onChange: this.handleChange
-      }))));
+      }));
     }
   }]);
 
@@ -25796,7 +25812,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62949" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64324" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

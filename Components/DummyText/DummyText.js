@@ -9,7 +9,13 @@ export default class App extends Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+    }
 
+    componentDidMount() {
+        this.fetchText();
+    }
+
+    fetchText() {
         const url = 'https://baconipsum.com/api/?type=meat-and-filler&paras=' + this.state.paragraphs
         fetch(url)
             .then((response) => {
@@ -22,17 +28,16 @@ export default class App extends Component {
     }
 
     handleChange(event) {
-        this.setState({paragraphs: event.target.value})
+        this.setState({paragraphs: event.target.value}, () => {
+            this.fetchText();
+        });
+
     }
 
     render() {
         return(
             <div id='dummy-container'>
                 <h1>Bacon Text Generator</h1>
-                <div id='dummy-text-result'></div>
-                    {this.state.results.map((paragraphText, index) => {
-                        return <p key={index}>{paragraphText}</p>
-                    })}
                 <div id='dummy-text-controls'>
                     <h2> Options</h2>
                     <p>
@@ -40,9 +45,14 @@ export default class App extends Component {
                     </p>
                     <p>
                         <input type='number' value={this.state.paragraphs}
+                               min='1'
                                onChange={this.handleChange} />
                     </p>
                 </div>
+                <div id='dummy-text-result'></div>
+                    {this.state.results.map((paragraphText, index) => {
+                        return <p key={index}>{paragraphText}</p>
+                    })}
             </div>
         )
     }
