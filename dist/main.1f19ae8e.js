@@ -25576,6 +25576,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
+      isLoading: true,
       paragraphs: 3,
       results: []
     };
@@ -25593,14 +25594,16 @@ function (_Component) {
     value: function fetchText() {
       var _this2 = this;
 
+      this.setState({
+        isLoading: true
+      });
       var url = 'https://baconipsum.com/api/?type=meat-and-filler&paras=' + this.state.paragraphs;
       fetch(url).then(function (response) {
         return response.json();
       }).then(function (json) {
-        console.log(JSON.stringify(json));
-
         _this2.setState({
-          results: json
+          results: json,
+          isLoading: false
         });
       });
     }
@@ -25614,7 +25617,17 @@ function (_Component) {
       }, function () {
         _this3.fetchText();
       });
-    }
+    } // displayResults() {
+    //     if (this.state.isLoading) {
+    //         return <p>Loading...</p>
+    //     } else {
+    //         return this.state.results.map((paragraphText, index) => {
+    //             return <p key={index}>{paragraphText}</p>
+    //         })
+    //     }
+    //
+    // }
+
   }, {
     key: "render",
     value: function render() {
@@ -25629,7 +25642,7 @@ function (_Component) {
         onChange: this.handleChange
       }))), _react.default.createElement("div", {
         id: "dummy-text-result"
-      }), this.state.results.map(function (paragraphText, index) {
+      }), this.state.isLoading ? _react.default.createElement("p", null, "Loading...") : this.state.results.map(function (paragraphText, index) {
         return _react.default.createElement("p", {
           key: index
         }, paragraphText);
@@ -25812,7 +25825,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64324" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64899" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

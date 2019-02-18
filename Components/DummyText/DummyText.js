@@ -4,8 +4,9 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: true,
             paragraphs: 3,
-            results: []
+            results: [],
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -16,14 +17,18 @@ export default class App extends Component {
     }
 
     fetchText() {
+        this.setState({isLoading: true});
+
         const url = 'https://baconipsum.com/api/?type=meat-and-filler&paras=' + this.state.paragraphs
         fetch(url)
             .then((response) => {
                 return response.json();
             })
             .then((json) => {
-                console.log(JSON.stringify(json));
-                this.setState({results: json})
+                this.setState({
+                    results: json,
+                    isLoading: false
+                })
             });
     }
 
@@ -31,8 +36,18 @@ export default class App extends Component {
         this.setState({paragraphs: event.target.value}, () => {
             this.fetchText();
         });
-
     }
+
+    // displayResults() {
+    //     if (this.state.isLoading) {
+    //         return <p>Loading...</p>
+    //     } else {
+    //         return this.state.results.map((paragraphText, index) => {
+    //             return <p key={index}>{paragraphText}</p>
+    //         })
+    //     }
+    //
+    // }
 
     render() {
         return(
@@ -50,9 +65,14 @@ export default class App extends Component {
                     </p>
                 </div>
                 <div id='dummy-text-result'></div>
-                    {this.state.results.map((paragraphText, index) => {
-                        return <p key={index}>{paragraphText}</p>
-                    })}
+                    {/*ternary operator to replace if/else above!!!!!*/}
+                    {
+                        this.state.isLoading ? <p>Loading...</p>
+                        : this.state.results.map((paragraphText, index) => {
+                            return <p key={index}>{paragraphText}</p>
+                    })
+
+                    }
             </div>
         )
     }
